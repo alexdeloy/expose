@@ -1,0 +1,54 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 1000px;
+	margin: 0 auto;
+	font-family: sans-serif;
+	color: #666;
+}
+
+.caption {
+	display: block;
+	padding: 1em;
+	width: 100%;
+	color: #fff;
+}
+
+.caption-default {
+	position: absolute;
+	bottom: 0 !important;
+}
+
+.caption-overlay {
+	position: absolute;
+}
+
+.textimage {
+	position: relative;
+	margin: 1em 0;
+	width: 1000px;
+	overflow: auto;
+}
+
+.single, .multiple {
+	position: relative;
+	margin: 1em 0;
+	width: 1000px;
+	overflow: auto;
+}
+
+.multiple .image {
+	float: left;
+	position: relative;
+}
+
+.multiple-2 .image {	width: 50%; }
+.multiple-3 .image {	width: 33.3333%; }
+.multiple-4 .image {	width: 25%; }
+
+img {
+	width: 100%;
+	height: auto;
+}
