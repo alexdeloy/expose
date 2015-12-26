@@ -11,6 +11,7 @@ inputFolder = "input"
 imageTypes = ["jpg", "png", "gif"]
 textTypes = ["txt", "md"]
 md = markdown.Markdown(extensions = ['markdown.extensions.meta'])
+imageIndex = 0
 
 def natural_key(string_):
     """See http://www.codinghorror.com/blog/archives/001018.html"""
@@ -36,12 +37,12 @@ def resizeImage(sourceImage, destinationImage, width):
 
 
 def getSnippet(buffer):
+	global imageIndex
 	html = ""
 
 	date = buffer.get("meta", {}).get("date", ["none"])[0]
 	if date is not "0":
 		html += "<a name='" + date + "'></a>"
-
 
 	# Text only
 	if "text" in buffer and "image" not in buffer:
@@ -52,25 +53,35 @@ def getSnippet(buffer):
 
 	# Image only
 	if "image" in buffer and "text" not in buffer:
+		imageIndex += 1
 		template = getTemplate("content-image.html")		
 		outputImage = buffer["image"].replace("input", "output")
 		content = resizeImage(buffer["image"], outputImage, 1000)
-		html += template.replace("{{content}}", content)
+		contentbig = "../" + buffer["image"]
+		template = template.replace("{{imageIndex}}", str(imageIndex))
+		template = template.replace("{{content}}", content)
+		template = template.replace("{{contentbig}}", contentbig)
+		html += template
 		return html
 
 	# Text and Image
 	if "image" in buffer and "text" in buffer:
+		imageIndex += 1
 		template = getTemplate("content-textimage.html")		
 		outputImage = buffer["image"].replace("input", "output")
 		content = resizeImage(buffer["image"], outputImage, 1000)
+		contentbig = "../" + buffer["image"]
 		type = buffer.get("meta", {}).get("type", ["default"])[0]
 		style = getCSS(buffer)
 		caption = buffer["text"]
 
-		html += template.replace("{{content}}", content)
-		html = html.replace("{{type}}", type)
-		html = html.replace("{{style}}", style)
-		html = html.replace("{{caption}}", caption)
+		template = template.replace("{{content}}", content)
+		template = template.replace("{{contentbig}}", contentbig)
+		template = template.replace("{{imageIndex}}", str(imageIndex))
+		template = template.replace("{{type}}", type)
+		template = template.replace("{{style}}", style)
+		template = template.replace("{{caption}}", caption)
+		html += template
 		return html
 
 

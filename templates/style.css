@@ -4,9 +4,17 @@
 
 body {
 	color: #666;
-	font-family: sans-serif;
+	font-family: "Roboto", sans-serif;
 	margin: 0 auto;
 	width: 1000px;
+}
+
+h1 {
+	font-weight: 300;
+}
+
+h2, h3, h4 {
+	font-weight: 500;
 }
 
 aside {
@@ -87,4 +95,56 @@ aside a:hover {
 img {
 	width: 100%;
 	height: auto;
+	cursor: pointer;
+}
+
+.lightbox {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.lightbox .background {
+	background: #333;
+	opacity: 0.8;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+.lightbox .close {
+	cursor: pointer;
+	font-size: 3rem;
+	color: #fff;
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	z-index: 3;
+	font-weight: 300;
+}
+
+.lightbox .content {
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	width: 100%;
+	height: 100%;	
+	z-index: 2;
+	width: 80%;
+	height: 80%;
+}
+
+.lightbox img {
+	display: block;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+	width: auto;
+	margin: 0 auto;
 }

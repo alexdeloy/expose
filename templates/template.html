@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>{{title}}</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
+	
 </head>
 <body>
 	<style>
@@ -15,5 +17,81 @@
 	<main>
 	{{expose}}		
 	</main>
+
+	<div class="lightbox">
+		<div class="background"></div>
+		<div class="close">&times;</div>
+		<div class="content">
+			<img src="../input/09.JPG" alt="">
+		</div>
+	</div>
+
+	<script src="jquery-2.1.4.min.js"></script>
+	<script>
+
+	var lightboxCurrent = null;
+
+	var lightboxPrev = function() {
+		if (lightboxCurrent == null) {
+			return;
+		} 
+		lightboxCurrent--;
+		var target = $("img[data-index='"+lightboxCurrent+"']");
+		if (target.length > 0) {
+			$(".lightbox .content").fadeOut();
+			$(".lightbox .content img").attr("src", $(target).data("big"));
+			$(".lightbox .content").fadeIn();
+		} else {
+			lightboxCurrent++;
+		}
+	};
+
+	var lightboxNext = function() {
+		if (lightboxCurrent == null) {
+			return;
+		} 
+		lightboxCurrent++;
+		var target = $("img[data-index='"+lightboxCurrent+"']");
+		if (target.length > 0) {
+			$(".lightbox .content").fadeOut();
+			$(".lightbox .content img").attr("src", $(target).data("big"));
+			$(".lightbox .content").fadeIn();
+		} else {
+			lightboxCurrent--;
+		}
+	};
+
+	var lightboxClose = function() {
+    	$(".lightbox").fadeOut();
+    	lightboxCurrent = null;
+	}
+
+	$(document).ready(function() {
+		$(".image img, .textimage img").on("click", function() {
+			$(".lightbox .content img").attr("src", $(this).data("big"));
+			$(".lightbox").fadeIn();
+			lightboxCurrent = $(this).data("index");
+		});
+
+		$(".lightbox .close").on("click", function() {
+			$(".lightbox").fadeOut();
+		});
+
+		document.onkeydown = function(evt) {
+		    evt = evt || window.event;
+		    if (evt.keyCode == 27) {
+		    	lightboxClose();
+		    }
+		    if (evt.keyCode == 37) {
+		    	lightboxPrev();
+		    }
+		    if (evt.keyCode == 39) {
+		    	lightboxNext();
+		    }
+		};
+	});
+	
+	</script>
+
 </body>
 </html>
