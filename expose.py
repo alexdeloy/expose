@@ -1,9 +1,11 @@
+from collections import OrderedDict
+from PIL import Image
+from time import strptime, strftime
+import json
+import markdown
 import os
 import pprint
 import re
-from collections import OrderedDict
-from PIL import Image
-import markdown
 
 inputFolder = "input"
 imageTypes = ["jpg", "png", "gif"]
@@ -34,11 +36,18 @@ def resizeImage(sourceImage, destinationImage, width):
 
 
 def getSnippet(buffer):
+	html = ""
+
+	date = buffer.get("meta", {}).get("date", ["none"])[0]
+	if date is not "0":
+		html += "<a name='" + date + "'></a>"
+
+
 	# Text only
 	if "text" in buffer and "image" not in buffer:
 		template = getTemplate("content-text.html")		
 		content = buffer["text"]
-		html = template.replace("{{content}}", content)
+		html += template.replace("{{content}}", content)
 		return html
 
 	# Image only
@@ -46,7 +55,7 @@ def getSnippet(buffer):
 		template = getTemplate("content-image.html")		
 		outputImage = buffer["image"].replace("input", "output")
 		content = resizeImage(buffer["image"], outputImage, 1000)
-		html = template.replace("{{content}}", content)
+		html += template.replace("{{content}}", content)
 		return html
 
 	# Text and Image
@@ -58,7 +67,7 @@ def getSnippet(buffer):
 		style = getCSS(buffer)
 		caption = buffer["text"]
 
-		html = template.replace("{{content}}", content)
+		html += template.replace("{{content}}", content)
 		html = html.replace("{{type}}", type)
 		html = html.replace("{{style}}", style)
 		html = html.replace("{{caption}}", caption)
@@ -84,10 +93,17 @@ def getTemplate(templateName):
 
 # --- extract data ------------------------------------------------------------
 data = {}
+dates = []
+settings = {}
 for root, dirs, files in os.walk(inputFolder):
 	for file in files:
 		filePath = os.path.join(root, file)
 		fileParts = os.path.splitext(file)
+		if file == "settings.json":
+			with open("input/settings.json", "r") as settingsFile:
+				settings = json.load(settingsFile)
+			continue
+
 		sorting = [sortingPart.lstrip("0") for sortingPart in fileParts[0].split("_")] 
 		key = "_".join(sorting)
 		ext = fileParts[-1].replace(".", "").lower()
@@ -101,9 +117,18 @@ for root, dirs, files in os.walk(inputFolder):
 		if ext in textTypes:
 			with open(filePath, "r") as textFile:
 				textContent = textFile.read()
-				htmlContent = md.reset().convert(textContent)								
+				htmlContent = md.reset().convert(textContent)
+				meta = md.Meta								
 				data[key]["text"] = htmlContent				
-				data[key]["meta"] = md.Meta
+				data[key]["meta"] = meta
+
+				if "date" in meta:
+					dateObject = strptime(meta.get("date")[0], "%Y-%m-%d")					
+					dateItem = {
+						"date": dateObject,
+						"title": meta.get("title", "")
+					}
+					dates.append(dateItem)
 
 
 # --- sort & arrange ----------------------------------------------------------
@@ -142,6 +167,17 @@ if not os.path.exists(os.path.dirname(htmlTarget)):
 
 with open(htmlTarget, "w") as htmlFile:
 	html = ""
+
+	dateList = ""
+	for date in dates:
+		d = strftime("%Y-%m-%d", date.get("date"))
+		label = strftime("%d.%m.%Y", date.get("date"))
+		title = date.get("title", "")[0]
+		if title is not "":
+			label += " - " + title
+		dateList += "<a href='#" + d + "'>" + label + "</a>"
+	template = template.replace("{{dates}}", dateList)
+
 	for o in output:
 		if "children" in output[o]:
 			childCount = str(len(output[o]["children"]))
@@ -158,5 +194,6 @@ with open(htmlTarget, "w") as htmlFile:
 			contentTemplate = contentTemplate.replace("{{content}}", content)
 			html += contentTemplate
 
+	template = template.replace("{{title}}", settings.get("title", "untitled"))		
 	template = template.replace("{{expose}}", html)		
 	htmlFile.write(template)

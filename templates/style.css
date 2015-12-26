@@ -9,6 +9,26 @@ body {
 	width: 1000px;
 }
 
+aside {
+	position: fixed;
+	top: 50px;
+	left: 50px;
+	width: 300px;
+}
+
+aside a {
+	display: block;
+	text-decoration: none;
+	text-transform: uppercase;
+	margin: 0.5em 0;
+	color: #aaa;
+	font-size: 13px;
+}
+
+aside a:hover {
+	color: #666;
+}
+
 .caption {
 	color: #fff;
 	display: block;
@@ -48,6 +68,10 @@ body {
 	overflow: auto;
 	font-size: 0;
 	line-height: 0;
+}
+
+.multiple .text {
+	padding: 2rem;
 }
 
 .multiple div {
