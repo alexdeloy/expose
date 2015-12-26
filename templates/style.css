@@ -3,17 +3,20 @@
 }
 
 body {
-	width: 1000px;
-	margin: 0 auto;
-	font-family: sans-serif;
 	color: #666;
+	font-family: sans-serif;
+	margin: 0 auto;
+	width: 1000px;
 }
 
 .caption {
+	color: #fff;
 	display: block;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.4em;
 	padding: 1em;
 	width: 100%;
-	color: #fff;
 }
 
 .caption-default {
@@ -23,6 +26,12 @@ body {
 
 .caption-overlay {
 	position: absolute;
+}
+
+.text {
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.4em;
 }
 
 .textimage {
@@ -37,16 +46,19 @@ body {
 	margin: 1em 0;
 	width: 1000px;
 	overflow: auto;
+	font-size: 0;
+	line-height: 0;
 }
 
-.multiple .image {
+.multiple div {
 	float: left;
 	position: relative;
 }
 
-.multiple-2 .image {	width: 50%; }
-.multiple-3 .image {	width: 33.3333%; }
-.multiple-4 .image {	width: 25%; }
+.multiple-2 div { width: 50%; }
+.multiple-3 div { width: 33.333333%; }
+.multiple-4 div { width: 25%; }
+.multiple-5 div { width: 20%; }
 
 img {
 	width: 100%;
