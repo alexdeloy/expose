@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<header>
+	<a class="back" href="..">&#8592;</a>
+	<h1>{{name}}</h1>	
+	{% if items|length > 1 %}
+	<h2>{{items|length}} Photos</h2>	
+	{% endif %}
+</header>
+
+<main>	
+	<ul class="children">
+		{% for child in children %}
+		<li>
+			<a href="{{child.name.lower()|replace(" ","_")}}/index.html">
+				<img src="{{child.name.lower()|replace(" ","_")}}/title.jpg">
+				<div class="title">{{child.name}}</div>
+				<div class="stats">{{child.count}} Photos</div>
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+
+	<ul class="items">
+		{% for item in items %}
+		<li {% if item.text and item.image %}class="captioned"{% endif %}>
+			{% if item.children %}
+				<ul class="multiple-{{item.children|length}}">
+				{% for child in item.children %}
+					<li {% if item.children[child].text and item.children[child].image %}class="captioned"{% endif %}>
+					{% if item.children[child].image %}
+					<img src="{{item.children[child].image}}" alt="">
+					{% endif %}
+
+					{% if item.children[child].video %}
+					<video loop autoplay preload="auto" width="auto" height="auto">
+						<source src="{{item.children[child].video}}" type="video/mp4" />
+					</video>
+					{% endif %}
+
+					{% if item.children[child].text %}
+					<div class="label">{{item.children[child].text}}</div>
+					{% endif %}
+					</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if item.image %}
+			<img src="{{item.image}}" alt="">
+			{% endif %}
+
+			{% if item.video %}
+			<video loop autoplay preload="auto" width="auto" height="auto">
+				<source src="{{item.video}}" type="video/mp4" />
+			</video>
+			{% endif %}
+
+			{% if item.text %}
+			<div class="label">{{item.text}}</div>
+			{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<main>
+	<ul class="overview">
+		{% for set in sets %}
+		<li>
+			<a href="{{set.name.lower()|replace(" ","_")}}/index.html">
+				<img src="{{set.name.lower()|replace(" ","_")}}/title.jpg" alt="">
+
+				<div class="title">
+					{% if set.settings and set.settings.title %}
+					<h1>{{set.settings.title}}</h1>
+					{% else %}
+					<h1>{{set.name}}</h1>
+					{% endif %}
+
+					{% if set.settings and set.settings.subtitle %}
+					<h2>{{set.settings.subtitle}}</h2>
+					{% endif %}
+					
+					{% if set.settings and set.settings.location %}
+					<div class="location">{{set.settings.location}}</div>
+					{% endif %}
+				</div>
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+</main>
+
+</body>
+</html>
