@@ -1,4 +1,5 @@
-$pageWidth: 1000px
+$pageWidth: 1300px
+$galleryWidth: 1000px
 
 *
 	box-sizing: border-box
@@ -6,52 +7,120 @@ $pageWidth: 1000px
 body
 	color: #444
 	font-family: "Source Sans Pro", sans-serif;
+	width: $pageWidth
+	margin: 0 auto
+
+h1
+	font-weight: 300
+	line-height: 2rem
+	font-size: 2rem
+
+h2
+	font-weight: 500
+	line-height: 1.5rem
+	font-size: 1.5rem
+
+		
+.gradient
+	position: absolute
+	top: 0
+	left: 0
+	height: 100%
+	width: 100%
+	z-index: 1
+	background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.65) 100%) /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.65) 100%) /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.65) 100%) /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ) /* IE6-9 */
+
+
+.anchor
+	display: block
+	position: relative
+	top: -25px
+	visibility: hidden
 
 header
-	margin: 0 auto
-	width: $pageWidth
-	
-	.back
-		position: absolute
-		top: 2rem
-		left: 2rem
-		font-size: 32px
+	margin: 3rem 0
+
+	h1
+		font-size: 3rem
+		line-height: 3rem
+
+	&:before
+		content: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9ImF1dG8iIGhlaWdodD0iYXV0byIgdmlld0JveD0iMCAwIDUxMiA3MTguNjU4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNzE4LjY1OCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+IDxnPiA8cGF0aCBkPSJNMjU2LDBDMTE0LjU2MSwwLDAsMTE0LjYyMywwLDI1NmMwLDU3LjQzMSwxOC45MDksMTEwLjQ1Niw1MC44NTQsMTUzLjE2N2wxNjQuMjA4LDI4NC40MjEgYzAuOTUzLDEuODM1LDEuOTA2LDMuNjYxLDMuMDc2LDUuMzM3bDAuMzY0LDAuNjNsMC4wOTctMC4wNTRjOC4zOTEsMTEuNTk2LDIxLjg4OCwxOS4xNTcsMzcuNTM5LDE5LjE1NyBjMTQuMTE3LDAsMjYuNDM5LTYuNDI3LDM0Ljg5Ni0xNi4zMjlsMC40MzUsMC4yMzlsMS42MjItMi44MTFjMi4zOTQtMy4yMzUsNC41MjEtNi42NzUsNi4wNTUtMTAuNDg2bDE2MC44NzEtMjc4LjY1OSBDNDkyLjYyMSwzNjcuNjQ1LDUxMiwzMTQuMDk2LDUxMiwyNTZDNTEyLDExNC42MjMsMzk3LjQzOSwwLDI1NiwweiBNMjUzLjQ2OSwzODUuNzgyYy02OS42OTEsMC0xMjYuMTM0LTU2LjQ3NC0xMjYuMTM0LTEyNi4xMzUgYzAtNjkuNjUxLDU2LjQ0Mi0xMjYuMTM0LDEyNi4xMzQtMTI2LjEzNHMxMjYuMTM0LDU2LjQ4MiwxMjYuMTM0LDEyNi4xMzRTMzIzLjE2LDM4NS43ODIsMjUzLjQ2OSwzODUuNzgyeiIvPiA8L2c+IDwvc3ZnPg==)
+		display: inline-block
+		float: left
+		height: 4rem
+		line-height: 3rem
+		margin: 0 1.5rem 0 0
+		width: 2.5rem
+		opacity: 0.25
+
+aside
+	width: 250px
+	float: left
+	margin: 3rem auto
+
+	.container
+		position: fixed
+
+	h1 a
+		font-size: 2rem
+		line-height: 2rem
+
+	a
+		display: block
+		font-size: 16px
 		text-decoration: none
 		color: #444
+		line-height: 1.5rem
 
 		&:hover
 			color: #000
 
+	.back
+		font-size: 32px
+
+	nav
+		border-top: 1px solid #ddd
+		margin-top: 2rem
+		padding-top: 2rem
+
+main
+	margin: 3rem auto
+	float: right
+	width: $galleryWidth
+
 .overview
-	list-style: none
-	margin: 0 auto
 	width: $pageWidth
-	color: #f1f2f3
 
-	li
-		height: 618px
-		position: relative
-		width: 100%		
-		margin: 1rem 0
-		overflow: hidden
+	.set
+		overflow: auto
+		margin: 0 0 3rem 0
 
-		img
-			width: 100%
-			height: 100%
+		.title
+			float: left
+			width: 250px
 
-	.title
-		position: absolute
-		left: 1rem
-		bottom: 1rem
-		color: #fff
+		.location
+			&:before
+				content: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9ImF1dG8iIGhlaWdodD0iYXV0byIgdmlld0JveD0iMCAwIDUxMiA3MTguNjU4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNzE4LjY1OCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+IDxnPiA8cGF0aCBkPSJNMjU2LDBDMTE0LjU2MSwwLDAsMTE0LjYyMywwLDI1NmMwLDU3LjQzMSwxOC45MDksMTEwLjQ1Niw1MC44NTQsMTUzLjE2N2wxNjQuMjA4LDI4NC40MjEgYzAuOTUzLDEuODM1LDEuOTA2LDMuNjYxLDMuMDc2LDUuMzM3bDAuMzY0LDAuNjNsMC4wOTctMC4wNTRjOC4zOTEsMTEuNTk2LDIxLjg4OCwxOS4xNTcsMzcuNTM5LDE5LjE1NyBjMTQuMTE3LDAsMjYuNDM5LTYuNDI3LDM0Ljg5Ni0xNi4zMjlsMC40MzUsMC4yMzlsMS42MjItMi44MTFjMi4zOTQtMy4yMzUsNC41MjEtNi42NzUsNi4wNTUtMTAuNDg2bDE2MC44NzEtMjc4LjY1OSBDNDkyLjYyMSwzNjcuNjQ1LDUxMiwzMTQuMDk2LDUxMiwyNTZDNTEyLDExNC42MjMsMzk3LjQzOSwwLDI1NiwweiBNMjUzLjQ2OSwzODUuNzgyYy02OS42OTEsMC0xMjYuMTM0LTU2LjQ3NC0xMjYuMTM0LTEyNi4xMzUgYzAtNjkuNjUxLDU2LjQ0Mi0xMjYuMTM0LDEyNi4xMzQtMTI2LjEzNHMxMjYuMTM0LDU2LjQ4MiwxMjYuMTM0LDEyNi4xMzRTMzIzLjE2LDM4NS43ODIsMjUzLjQ2OSwzODUuNzgyeiIvPiA8L2c+IDwvc3ZnPg==)
+				display: inline-block
+				float: left
+				height: 1rem
+				margin: 0 10px 0 0
+				width: 0.625rem
+				opacity: 0.25
 
-		h1
-			font-weight: 300
-			line-height: 1rem
+		.stats
+			border-top: 1px solid #ddd
+			margin-top: 2rem
+			padding-top: 2rem
 
-		h2
-			font-weight: 300
-			line-height: 1rem
+		a
+			float: right
+			width: $galleryWidth
 
 
 .children
@@ -59,12 +128,12 @@ header
 	margin: 0 auto
 	overflow: auto
 	padding: 0
-	width: $pageWidth
+	width: $galleryWidth
 
 	li
-		width: $pageWidth/3
+		width: $galleryWidth/3
 		float: left
-		height: ($pageWidth/3) / 1.618
+		height: ($galleryWidth/3) / 1.618
 		padding: 0
 		color: #f1f2f3
 		margin: 0 0 1rem 0
@@ -83,24 +152,26 @@ header
 			position: absolute
 			bottom: 1rem
 			left: 1rem
+			z-index: 2
 
 		.stats
 			position: absolute
 			bottom: 1rem
 			right: 1rem
 			text-align: right
+			z-index: 2
 
 .items
 	list-style: none
 	margin: 0 auto
 	overflow: auto
 	padding: 0
-	width: $pageWidth
+	width: $galleryWidth
 
 	img
 		width: 100%
 		height: auto
-		
+
 	ul
 		list-style: none
 		overflow: auto
@@ -144,3 +215,4 @@ header
 		left: 1rem
 		position: absolute
 		color: #f1f2f3
+		z-index: 2

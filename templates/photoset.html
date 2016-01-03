@@ -8,19 +8,28 @@
 </head>
 <body>
 
-<header>
-	<a class="back" href="..">&#8592;</a>
-	<h1>{{name}}</h1>	
-	{% if items|length > 1 %}
-	<h2>{{items|length}} Photos</h2>	
-	{% endif %}
-</header>
+<aside>
+	<div class="container">
+		<a class="back" href="..">&#8592;</a>
+		<h1><a href="#">{{name}}</a></h1>	
+		{% if items|length > 1 %}
+		<h2>{{items|length}} Photos</h2>	
+		{% endif %}
+
+		<nav>	
+			{% for nav in navigation %}
+			<a class="nav" href="{{nav.target}}"><date>{{nav.timestamp}}</date> - {{nav.label}}</a>
+			{% endfor %}	
+		</nav>		
+	</div>
+</aside>
 
 <main>	
 	<ul class="children">
 		{% for child in children %}
 		<li>
 			<a href="{{child.name.lower()|replace(" ","_")}}/index.html">
+				<div class="gradient"></div>
 				<img src="{{child.name.lower()|replace(" ","_")}}/title.jpg">
 				<div class="title">{{child.name}}</div>
 				<div class="stats">{{child.count}} Photos</div>
@@ -31,6 +40,11 @@
 
 	<ul class="items">
 		{% for item in items %}
+
+		{% if item.meta and item.meta.date %}
+		<a class="anchor" name="{{item.meta.date[0]}}"></a>
+		{% endif %}
+
 		<li {% if item.text and item.image %}class="captioned"{% endif %}>
 			{% if item.children %}
 				<ul class="multiple-{{item.children|length}}">
@@ -49,6 +63,11 @@
 					{% if item.children[child].text %}
 					<div class="label">{{item.children[child].text}}</div>
 					{% endif %}
+
+					{% if item.children[child].text and item.children[child].image %}
+					<div class="gradient"></div>
+					{% endif %}
+
 					</li>
 					{% endfor %}
 				</ul>
@@ -66,6 +85,10 @@
 
 			{% if item.text %}
 			<div class="label">{{item.text}}</div>
+			{% endif %}
+
+			{% if item.text and item.image %}
+			<div class="gradient"></div>
 			{% endif %}
 		</li>
 		{% endfor %}

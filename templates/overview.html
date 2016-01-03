@@ -2,38 +2,52 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>{{ title }}</title>
+	<title>{{settings.title}}</title>
 	<link rel="stylesheet" href="/style.css">
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
-<main>
-	<ul class="overview">
-		{% for set in sets %}
-		<li>
-			<a href="{{set.name.lower()|replace(" ","_")}}/index.html">
-				<img src="{{set.name.lower()|replace(" ","_")}}/title.jpg" alt="">
+<header>
+	<h1>{{settings.title}}</h1>	
+	{% if settings.subtitle %}
+	<h2>{{settings.subtitle}}</h2>
+	{% endif %}
+</header>
 
-				<div class="title">
-					{% if set.settings and set.settings.title %}
-					<h1>{{set.settings.title}}</h1>
-					{% else %}
-					<h1>{{set.name}}</h1>
-					{% endif %}
+<main class="overview">
+	{% for set in sets %}
+	<div class="set">
+		<div class="title">
+			{% if set.settings and set.settings.title %}
+			<h1>{{set.settings.title}}</h1>
+			{% else %}
+			<h1>{{set.name}}</h1>
+			{% endif %}
 
-					{% if set.settings and set.settings.subtitle %}
-					<h2>{{set.settings.subtitle}}</h2>
-					{% endif %}
-					
-					{% if set.settings and set.settings.location %}
-					<div class="location">{{set.settings.location}}</div>
-					{% endif %}
-				</div>
-			</a>
-		</li>
-		{% endfor %}
-	</ul>
+			{% if set.settings and set.settings.subtitle %}
+			<h2>{{set.settings.subtitle}}</h2>
+			{% endif %}
+			
+			{% if set.settings and set.settings.location %}
+			<div class="location">{{set.settings.location}}</div>
+			{% endif %}
+
+			<div class="stats">
+				{% if set.childcount > 0 %}
+				{{set.childcount}} Sets<br>
+				{% endif %}
+				
+				{% if set.count > 0 %}
+				{{set.count}} Photos<br>
+				{% endif %}
+			</div>
+		</div>
+		<a href="{{set.name.lower()|replace(" ","_")}}/index.html">
+			<img src="{{set.name.lower()|replace(" ","_")}}/title.jpg" alt="">
+		</a>
+	</div>
+	{% endfor %}
 </main>
 
 </body>

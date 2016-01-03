@@ -5,6 +5,7 @@ import markdown
 import shutil
 import os
 import re
+from time import strptime, strftime
 from PIL import Image
 
 
@@ -212,10 +213,21 @@ def createHtmlPage(target, content):
 	templateEnv = jinja2.Environment(loader=templateLoader)
 	template = templateEnv.get_template("photoset.html")
 
+	nav = []
+
 	items = []
 	if "items" in content:
 		for item in content["items"]:
 			items.append(content["items"][item])
+			if "meta" in content["items"][item]:
+				date = content["items"][item]["meta"]["date"][0]
+				timestamp = strptime(date, "%Y-%m-%d")
+				title = content["items"][item]["meta"]["title"][0]
+				nav.append({
+					"target": "#" + date,
+					"timestamp": strftime("%d.%m.%Y", timestamp),
+					"label": title
+				})
 
 	children = []
 	if "children" in content:
@@ -225,7 +237,8 @@ def createHtmlPage(target, content):
 	templateVars = {
 		"name": content["name"],
 		"items": items,
-		"children": children
+		"children": children,
+		"navigation": nav
 	}
 	outputText = template.render(templateVars)
 	with open(target, "w") as html:
@@ -244,10 +257,13 @@ def createOverview(content):
 		titleTarget = os.path.join("output", content[c]["name"].lower().replace(" ", "_"), "title.jpg")
 		createImage(titleOrigin, titleTarget, 1000)
 
+	settings = {}
+	with open("settings.json", "r") as settingsFile:
+		settings = json.load(settingsFile)
 
 	templateVars = {
-		"title" : "Photosets",
-		"sets": sets
+		"sets": sets,
+		"settings": settings
 	}
 
 	outputText = template.render(templateVars)
@@ -255,9 +271,7 @@ def createOverview(content):
 		html.write(outputText)
 
 	# copy css
-	with open("output/style.css", "w") as cssTarget:
-		with open("templates/style.css", "r") as cssOrigin:
-			cssTarget.write(cssOrigin.read())
+	shutil.copy("templates/style.css", "output/style.css")
 
 
 # --- Startup -----------------------------------------------------------------
